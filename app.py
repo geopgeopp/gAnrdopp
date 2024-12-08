@@ -20,13 +20,11 @@ class app:
     def osDetector():
         system_operation = platform.system()
         
-        if system_operation == "Linux":
+        if "PREFIX" in os.environ and os.path.exists("/data/data/com.termux"):
+            return "Termux"
+        elif system_operation == "Linux":
             if "ANDROID_ARGUMENT" in os.environ:
-                # Verificar si estamos en Termux
-                if "PREFIX" in os.environ and os.path.exists("/data/data/com.termux"):
-                    return "Termux"
-                else:
-                    return "Android"
+                return "Android"
             else:
                 return "Linux"
         elif system_operation == "Windows":
