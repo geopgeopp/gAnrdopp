@@ -10,6 +10,7 @@ class app:
 
     @staticmethod
     def check_connection():
+        url=[]
         try:
             urec.urlopen("https://www.github.com")
             return True
@@ -33,28 +34,32 @@ class app:
             return "Mac"
         else:
             return "Unknown"
-        
+
     @staticmethod
     def test(self):
         system=self.system
         connection=self.connection
-        notSystem=["Linux","Windows","Darwin","Unknown"]
-        if system in notSystem:
+        notAllowed=["Linux","Windows","Darwin","Unknown"]
+        permittedSystem=["Termux","Android"]
+        if system in notAllowed:
             return False
-        else:
+        elif system in permittedSystem:
             if connection == True:
                 print(Fore.GREEN + "[√]", Fore.RESET + "The device has internet access.")
                 return True
             else:
-                print(Fore.RED + "[!]", Fore.RESET + "Your device does not have internet access.")
-                return False
-            
+                return "No internet access"
+
     def launcher(self):
         permittedOS = self.permittedOS
         if permittedOS == True:
             print("as")
         elif permittedOS == False:
             print(Fore.RED + "[!]", Fore.RESET + "Your system is not compatible.")
+            sys.exit()
+        elif permittedOS == "No internet access":
+            # Todavía no hay un launcher programado para "sin conexión a internet".
+            print(Fore.RED + "[!]", Fore.RESET + "Your device does not have internet access.")
             sys.exit()
 
 
