@@ -22,7 +22,11 @@ class app:
         
         if system_operation == "Linux":
             if "ANDROID_ARGUMENT" in os.environ:
-                return "Android"
+                # Verificar si estamos en Termux
+                if "PREFIX" in os.environ and os.path.exists("/data/data/com.termux"):
+                    return "Termux"
+                else:
+                    return "Android"
             else:
                 return "Linux"
         elif system_operation == "Windows":
