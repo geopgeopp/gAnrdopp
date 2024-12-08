@@ -6,6 +6,7 @@ class app:
     def __init__(self):
         self.system = self.osDetector()
         self.connection = self.check_connection()
+        self.permittedOS = self.test(self)
 
     @staticmethod
     def check_connection():
@@ -15,7 +16,7 @@ class app:
         except:
             return False
 
-    @staticmethod        
+    @staticmethod
     def osDetector():
         system_operation = platform.system()
         
@@ -31,26 +32,32 @@ class app:
         else:
             return "Unknown"
         
-
+    @staticmethod
     def test(self):
-        permittedOS=False
         system=self.system
         connection=self.connection
-        notSystem=["as","Windows","Darwin","Unknown"]
+        notSystem=["Linux","Windows","Darwin","Unknown"]
         if system in notSystem:
-            print(Fore.RED + "[!]", Fore.RESET + "Your system is not compatible.")
-            sys.exit()
+            return False
         else:
             if connection == True:
-                permittedOS=True
                 print(Fore.GREEN + "[√]", Fore.RESET + "The device has internet access.")
+                return True
             else:
                 print(Fore.RED + "[!]", Fore.RESET + "Your device does not have internet access.")
-                sys.exit()
+                return False
+            
+    def launcher(self):
+        permittedOS = self.permittedOS
+        if permittedOS == True:
+            print("as")
+        elif permittedOS == False:
+            print(Fore.RED + "[!]", Fore.RESET + "Your system is not compatible.")
+            sys.exit()
 
 
 
 
 if __name__ == "__main__":
     apps=app()
-    apps.test()
+    apps.launcher()
